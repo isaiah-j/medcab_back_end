@@ -7,12 +7,13 @@ const router = express.Router();
 router
     .route('/register')
     .post(authController.register)
-
+router
+    .route('/login')
+    .post(authController.login)
 router
     .route('/')
-    .get(userController.getAllUsers)
+    .get(authController.protect, userController.getAllUsers)
     .post(userController.createUser);
-
 router
     .route('/:id')
     .get(userController.getUser)

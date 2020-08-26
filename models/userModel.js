@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Password is required']
+        required: [true, 'Password is required'],
+        select: false
     },
     confirmPassword: {
         type: String,
@@ -27,7 +28,14 @@ const userSchema = new mongoose.Schema({
             },
             messsage: "Passwords are not the same"
         }
+    },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
     }
+    ,
+    passwordChangedAt: Date
     // other fields
 })
 
@@ -39,6 +47,11 @@ userSchema.pre('save', async function (next) {
     this.confirmPassword = undefined
     next()
 })
+
+userSchema.methods.correctPassword = async function (canditatePassword, userPassword) {
+    return await bcrypt.compare(canditatePassword, userPassword)
+}
+
 
 const User = mongoose.model('User', userSchema)
 
