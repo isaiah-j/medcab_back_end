@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
 const ailmentRouter = require('./routes/ailmentRoutes')
-
+const globalErrorHandler = require('./controllers/errorController')
+const AppError = require('./utils/appError')
 
 
 app.use(express.json());
@@ -12,11 +13,11 @@ app.use(express.json());
 app.use('/api/v1/ailments', ailmentRouter)
 
 app.all('*', (req, res, next) => {
-    res.status(404).json({
-        status: 404,
-        message: `Cannot find ${req.originalUrl}`
-    })
+
+    next(new AppError(`Can't find ${req.originalUrl} on this server`, 404))
 })
+
+app.use(globalErrorHandler)
 
 
 
