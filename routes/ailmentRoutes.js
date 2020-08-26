@@ -10,7 +10,7 @@ router.route('/')
 
 router.route('/:id')
     .get(ailmentController.getAilment)
-    .put(ailmentController.updateAilment)
+    .patch(ailmentController.updateAilment)
     .delete(ailmentController.deleteAilment)
 
 

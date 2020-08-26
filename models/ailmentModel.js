@@ -11,4 +11,6 @@ const ailmentSchema = new mongoose.Schema({
     // other fields
 })
 
-const Ailment = mongoose.model('Ailment', userSchema)
+const Ailment = mongoose.model('Ailment', ailmentSchema)
+
+module.exports = Ailment
