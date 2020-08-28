@@ -11,10 +11,11 @@ router.
     .post(ailmentController.postAilment)
 
 router
+    .use(authController.protect)
     .route('/:id')
     .get(ailmentController.getAilment)
-    .patch(authController.restrictTo('admin'), ailmentController.updateAilment)
-    .delete(authController.restrictTo('admin'), ailmentController.deleteAilment)
+    .patch(ailmentController.updateAilment)
+    .delete(ailmentController.deleteAilment)
 
 module.exports = router
 // app.get('/api/ailments', ailmentController.getAllAilments)

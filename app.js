@@ -9,13 +9,21 @@ const helmet = require('helmet')
 const mongoSanitize = require("express-mongo-sanitize")
 const xss = require('xss-clean')
 const hpp = require('hpp')
+const morgan = require('morgan')
+const cors = require('cors')
+const compression = require("compression")
+
+app.use(compression())
 app.use(helmet())
+app.use(cors())
+// app.use(morgan())
 
 // *** Rate Limiters ***
 
+
 // API limiter
 const limiter = rateLimit({
-    max: 100,
+    max: 1000,
     windowMs: 60 * 60 * 1000,
     message: "Too many requests from this IP, please try again later"
 })
@@ -45,7 +53,6 @@ app.use(xss())
 
 // Parameter Pollution
 app.use(hpp())
-
 
 //Routes
 app.use('/api/v1/ailments', ailmentRouter)

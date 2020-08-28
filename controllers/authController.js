@@ -2,6 +2,7 @@ const User = require('../models/userModel')
 const AppError = require('../utils/appError')
 const jwt = require('jsonwebtoken')
 const { promisify } = require('util')
+const ailment = require('../models/ailmentModel')
 
 
 const signToken = (id) => {
@@ -29,7 +30,6 @@ exports.protect = async (req, res, next) => {
             return next(new AppError('The User belonging to this token no longer exists', 401))
         }
         req.user = currentUser
-        console.log(req.user)
     } catch (error) {
         next(new AppError('Please login to continue', 401))
     }
@@ -67,7 +67,6 @@ exports.register = async (req, res, next) => {
                 }
             })
     } catch (error) {
-        console.log(error)
         next(new AppError(error.message, 400))
     }
 }
@@ -91,7 +90,7 @@ exports.login = async (req, res, next) => {
             token
         })
     } catch (error) {
-
+        next(new AppError("Incorrect email or password", 401))
     }
 }
 

@@ -39,7 +39,11 @@ const userSchema = new mongoose.Schema({
     // other fields
 })
 
+
+
+// Password Encryption
 userSchema.pre('save', async function (next) {
+    // Don't encrypt unless newly created or changed
     if (!this.isModified('password')) return next()
 
     this.password = await bcrypt.hash(this.password, 12)
@@ -48,6 +52,8 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
+
+// Compare passwords 
 userSchema.methods.correctPassword = async function (canditatePassword, userPassword) {
     return await bcrypt.compare(canditatePassword, userPassword)
 }
